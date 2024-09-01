@@ -93,7 +93,10 @@ val exclusions = listOf(
   "**/R\$*.class",
   "**/BuildConfig.*",
   "**/Manifest*.*",
-  "**/*Test*.*"
+  "**/*Test*.*",
+  "**/*Activity.*",
+  "**/*Activity*.*",
+  "android/**/*.*"
 )
 
 tasks.withType(Test::class) {
@@ -123,7 +126,7 @@ android {
         }
       ))
       executionData.setFrom(files(
-        fileTree(layout.buildDirectory) { include(listOf("**/*.exec", "**/*.ec")) }
+        fileTree(layout.buildDirectory) { include(listOf("**/*.exec")) }
       ))
     }
 }
