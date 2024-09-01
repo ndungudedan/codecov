@@ -1,0 +1,38 @@
+name: update jacoco report
+
+on:
+  pull_request:
+  push:
+    branches:
+      - master
+
+jobs:
+  jacoco:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Set up JDK
+        uses: actions/setup-java@v1
+        with:
+          java-version: 17.0.11
+
+      - name: Run jacoco
+        run: ./gradlew JacocoTest
+
+      - name: generate report
+        uses: actions/upload-artifact@v2
+        with:
+          name: report
+          path: '**/build/reports/jacoco'
+
+      - name: Download Test Reports Folder
+        uses: actions/download-artifact@v2
+        with:
+          name: report
+          path: '**/build/reports/jacoco'
+
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v1
+        with:
+          files: '**/JacocoTest.xml'
